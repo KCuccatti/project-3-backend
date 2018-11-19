@@ -1,9 +1,9 @@
 var dotenv = require('dotenv').config()
 var path = require("path");
-const db = require("./models");
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql  = require('mysql2');
+const mysql = require('mysql2');
+var db = require('./models/index.js').db;
 
 // Give app access to express package
 const myApp = express();
@@ -34,3 +34,4 @@ db.sequelize.sync().then(function () {
     console.log('App listening on PORT ' + PORT);
   });
 })
+
