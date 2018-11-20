@@ -9,7 +9,7 @@ var db = require('./models/index.js').db;
 const myApp = express();
 
 // Defines a PORT for the server to listen for requests
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3001;
 
 
 // Sets up server to parse request body for usage
