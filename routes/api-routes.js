@@ -6,6 +6,7 @@ var cors = require('cors');
 
 // Allows routes to be used outside of this file
 module.exports = function (myApp) {
+    
     var myFunctions = require('../models/index.js');
     var url = myFunctions.getUrl();
 
@@ -14,10 +15,9 @@ module.exports = function (myApp) {
 
 
     console.log(url);
-    // Validate if user exists
 
+    // Gets user from db and validate if user exists comparing info to db
     myApp.get("/api/GetUser/:username/:password/:srcSystemCode", function (req, res) {
-        console.log("Hello from get route");
         let userQuery = "SELECT user_name FROM users WHERE user_name=:username AND password=:password AND src_system_id=:srcSystemCode";
         console.log("helkjsdfjs");
 
@@ -42,6 +42,7 @@ module.exports = function (myApp) {
         });
     });
 
+    // Get categories from database
     myApp.get("/api/GetCategory", function (req, res) {
         let categoryQuery = "SELECT description FROM category ORDER BY description";
 
@@ -51,7 +52,7 @@ module.exports = function (myApp) {
             }
         ).then(function (response) {
             console.log(response);
-            res.json({response});
+            res.json({data:response});
         }).catch(function (error) {
             console.log("AN ERROR OCCURED WHILE FETCHING CATEGORY INFO.");
             console.log(error);
