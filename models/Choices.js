@@ -5,7 +5,7 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
             primaryKey: true
         },
-        question_id: {
+        questionId: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },

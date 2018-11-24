@@ -18,13 +18,13 @@ module.exports = function (myApp) {
     // Allow react which runs on port 3001 to connect to backend which runs on port 3000
     myApp.use(cors({ origin: "*" }));
 
-    console.log(url);
 
     //*****************************************************************
     // Gets user from db and validate if user exists comparing info to db    //*****************************************************************
     myApp.get("/api/GetUser/:username/:password/:srcSystemCode", function (req, res) {
         db.users.findAll({ where: { user_name: req.params.username, password: req.params.password, SRC_SYSTEM_ID: req.params.srcSystemCode } }).then(function (rows) {
-            if (rows) {
+            console.log(rows);
+            if (rows.length) {
                 res.json({ loggedIn: true });
             } else {
                 res.json({ loggedIn: false });
@@ -51,12 +51,20 @@ module.exports = function (myApp) {
     // Gets questions from database based on category
     //*****************************************************************
     myApp.get("/api/GetQuestions/:categoryId", function (req, res) {
+        console.log("INSIDE GETQUESTIONS.....");
         db.questions.findAll(
-            {where: { category_id: req.params.categoryId }},
-            {include: [ { model: choices, as: choices.choice } ]}
+             // {
+             // where: { category_id: req.params.categoryId }
+             // },
+            {
+                include:[db.choices]
+            }
         ).then(function (rows) {
-            res.json(rows);}
+            console.log(rows);
+            res.json(rows);
+        }
         ).catch(function (error) {
+            console.log(error);
             res.json({ error: error });
         });
 

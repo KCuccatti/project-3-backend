@@ -27,6 +27,6 @@ module.exports = function (sequelize, DataTypes) {
         });
     };
 
-    return questions;
+   return questions;
 
 }
