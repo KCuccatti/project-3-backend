@@ -60,7 +60,6 @@ module.exports = function (myApp) {
                 include:[db.choices]
             }
         ).then(function (rows) {
-            console.log(rows);
             res.json(rows);
         }
         ).catch(function (error) {
