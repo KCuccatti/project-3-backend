@@ -53,11 +53,11 @@ module.exports = function (myApp) {
     myApp.get("/api/GetQuestions/:categoryId", function (req, res) {
         console.log("INSIDE GETQUESTIONS.....");
         db.questions.findAll(
-             // {
-             // where: { category_id: req.params.categoryId }
-             // },
+            // {
+            // where: { category_id: req.params.categoryId }
+            // },
             {
-                include:[db.choices]
+                include: [db.choices]
             }
         ).then(function (rows) {
             res.json(rows);
@@ -68,5 +68,38 @@ module.exports = function (myApp) {
         });
 
     });
+
+     //*****************************************************************
+    // Add user to database (Signs a user up to database)
+    //******************************************************************
+    myApp.post("/api/Signup/:username/:password/:srcSystemCode", function(req, res) {
+        console.log('Hello from post ');
+        let k = db.users.create({user_name: req.params.username, password: req.params.password, SRC_SYSTEM_ID: req.params.srcSystemCode}).then(function() {
+            res.json({success: true});
+        }).catch(function(error) {
+          res.json({ success: false })
+        })
+        console.log(JSON.stringify(k));
+      });
+
+
+    //*****************************************************************
+    // Cancel Membership for the user (Deletes from Database)
+    //*****************************************************************
+    myApp.delete("/api/CancelMembership/:username/:password/:srcSystemCode"), function (req, res) {
+       console.log("***** GETTING READY TO DELETE USER");
+        db.users.delete(
+            {
+                where: { user_name: req.params.username, password: req.params.password, SRC_SYSTEM_ID: srcSystemCode }
+            }
+        ).then(function () {
+            res.json({success: true});
+        }
+        ).catch(function (error) {
+            console.log(error);
+            res.json({ error: error });
+        })
+    }
+
 
 }
