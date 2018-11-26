@@ -52,20 +52,42 @@ module.exports = function (myApp) {
     //*****************************************************************
     myApp.get("/api/GetQuestions/:categoryId", function (req, res) {
         console.log("INSIDE GETQUESTIONS.....");
+
         db.questions.findAll(
-            // {
-            // where: { category_id: req.params.categoryId }
-            // },
             {
-                include: [db.choices]
+                where: { categoryId: req.params.categoryId },
+            
+                include:
+                    [
+                        {
+                            model: db.choices
+                        }
+                    ]
             }
-        ).then(function (rows) {
-            res.json(rows);
-        }
-        ).catch(function (error) {
-            console.log(error);
-            res.json({ error: error });
-        });
+        )
+            .then(function (rows) {
+                res.json(rows);
+            }
+            ).catch(function (error) {
+                console.log(error);
+                res.json({ error: error });
+            });
+
+
+        // db.questions.findAll(
+        //     {
+        //         where: { categoryId: req.params.categoryId }
+        //     },
+        //     {
+        //         include: [db.choices]
+        //     },
+        //     ).then(function (rows) {
+        //     res.json(rows);
+        // }
+        // ).catch(function (error) {
+        //     console.log(error);
+        //     res.json({ error: error });
+        // });
 
     });
 
