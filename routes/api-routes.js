@@ -8,14 +8,17 @@ const path = require('path');
 var dotenv = require('dotenv').config();
 var cors = require('cors');
 
-
+// *********************************************
 // Allows routes to be used outside of this file
+// *********************************************
 module.exports = function (myApp) {
 
     var myFunctions = require('../models/index.js');
     var url = myFunctions.getUrl();
 
+    // *******************************************************************************
     // Allow react which runs on port 3001 to connect to backend which runs on port 3000
+    // *******************************************************************************
     myApp.use(cors({ origin: "*" }));
 
 
@@ -48,7 +51,8 @@ module.exports = function (myApp) {
 
 
     //*****************************************************************
-    // Gets questions from database based on category
+    // Gets questions from database based on category and include 
+    // choices for that category
     //*****************************************************************
     myApp.get("/api/GetQuestions/:categoryId", function (req, res) {
         console.log("INSIDE GETQUESTIONS.....");
@@ -72,27 +76,10 @@ module.exports = function (myApp) {
                 console.log(error);
                 res.json({ error: error });
             });
-
-
-        // db.questions.findAll(
-        //     {
-        //         where: { categoryId: req.params.categoryId }
-        //     },
-        //     {
-        //         include: [db.choices]
-        //     },
-        //     ).then(function (rows) {
-        //     res.json(rows);
-        // }
-        // ).catch(function (error) {
-        //     console.log(error);
-        //     res.json({ error: error });
-        // });
-
     });
 
     //*****************************************************************
-    // Add user to database (Signs a user up to database)
+    // Add user to database (Signs a user up to database) 
     //******************************************************************
     myApp.post("/api/Signup/:username/:password/:srcSystemCode", function (req, res) {
         console.log('Hello from post ');
