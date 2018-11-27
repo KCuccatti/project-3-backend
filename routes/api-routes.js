@@ -3,7 +3,6 @@ var db = require('../models').db;
 var questions = require('../models/Questions.js');
 var choices = require('../models/Choices.js');
 
-
 const path = require('path');
 var dotenv = require('dotenv').config();
 var cors = require('cors');
