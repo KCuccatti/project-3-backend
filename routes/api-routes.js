@@ -81,7 +81,6 @@ module.exports = function (myApp) {
     // Add user to database (Signs a user up to database) 
     //******************************************************************
     myApp.post("/api/Signup/:username/:password/:srcSystemCode", function (req, res) {
-        console.log('Hello from post ');
         db.users.create({ user_name: req.params.username, password: req.params.password, SRC_SYSTEM_ID: req.params.srcSystemCode }).then(function () {
             res.json({ success: true });
         }).catch(function (error) {
@@ -113,5 +112,26 @@ module.exports = function (myApp) {
         })
     })
 
+
+    myApp.put("/api/updatePassword/:username/:oldPassword/:newPassword/:srcSystemCode", function (req, res) {
+        db.users.update(
+            {password: req.params.newPassword},
+            {where: {
+                user_name: req.params.username, password: req.params.oldPassword, SRC_SYSTEM_ID: req.params.srcSystemCode
+            }
+        }
+        ).then(function (response) {
+            console.log(response);
+            if (response) {
+                res.json({ success: true });
+            } else {
+                res.json({ success: false });
+            }
+        }
+        ).catch(function (error) {
+            console.log(error);
+            res.json({ error: error });
+        })
+    })
 
 }
