@@ -54,7 +54,6 @@ module.exports = function (myApp) {
     // choices for that category
     //*****************************************************************
     myApp.get("/api/GetQuestions/:categoryId", function (req, res) {
-        console.log("INSIDE GETQUESTIONS.....");
 
         db.questions.findAll(
             {
@@ -93,7 +92,6 @@ module.exports = function (myApp) {
     // Cancel Membership for the user (Deletes from Database)
     //*****************************************************************
     myApp.delete("/api/CancelMembership/:username/:password/:srcSystemCode", function (req, res) {
-        console.log('Hello from delete');
         db.users.destroy({
             where: {
                 user_name: req.params.username, password: req.params.password, SRC_SYSTEM_ID: req.params.srcSystemCode
@@ -113,7 +111,7 @@ module.exports = function (myApp) {
     })
 
 
-    myApp.put("/api/updatePassword/:username/:oldPassword/:newPassword/:srcSystemCode", function (req, res) {
+    myApp.put("/api/updatePassword/:username/:oldPassword/:newPassword/:srcSystemCode", function (req, res) {        
         db.users.update(
             {password: req.params.newPassword},
             {where: {
@@ -121,7 +119,6 @@ module.exports = function (myApp) {
             }
         }
         ).then(function (response) {
-            console.log(response);
             if (response) {
                 res.json({ success: true });
             } else {
